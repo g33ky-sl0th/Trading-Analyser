@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>    
+        body {
+            background-image: url('/static/img4.jpg');
+            background-size:cover;
+            background-position:center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:rgb(240, 241, 230);
+        }
+
+    /* for changing the color of html link */
+    p a {
+        color: aqua;
+        text-decoration: underline; /* Optional: Remove underline */
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 18px;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+
+        <p>First time here? <a href="/register">Register here</a></p>
+    </div>
+</body>
+</html>

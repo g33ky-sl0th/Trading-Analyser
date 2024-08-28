@@ -1,0 +1,208 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Analysis</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" 
+     />
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px; /* for space around the dropdown */
+        position: relative; 
+        background-image: url("/static/img8.jpg"); /*setting the background image*/
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items:flex-start;
+        justify-content:left;
+        color: rgb(252, 250, 250);
+      }
+
+      h1 {
+        font-size: 40px; /* Increase font size */
+        font-weight: bold;
+        font-style: italic;
+        font-family: 'Times New Roman', Times, serif;
+        text-align: left;
+        margin-left: 100px;
+        margin-top: 5px;
+        visibility: hidden;
+      }
+
+      .dropdown-container {
+            border: 3px solid #080808;
+            padding: 20px;
+            position: absolute;
+            top: 250px; 
+            left: 20px; 
+            transition: ease-in;
+        }
+
+        /* for label like 'Stock' , 'Criteria', 'Time scale' */
+        label {
+            margin-top: 65px;
+            font-size: 24px; /* Increase font size */
+            display:inline-block;
+            margin-left: 30px;
+            color:rgb(5, 247, 62);
+        }
+
+        /* for options wihin dropdown menu */
+        select {
+            border-radius: 10px;
+            width: 150px;
+            padding: 8px;
+            font-size: 17px;
+            margin-bottom: 15px; /* Add margin between dropdowns */
+            background-color: antiquewhite;
+            font-family: 'Courier New', Courier, monospace;
+            cursor:pointer;
+        }
+
+        /* customizing the submit button */
+        .go-button {
+            position:absolute;
+            background-color: #47f3e5; /* Change button color */
+            color: rgb(2, 2, 2);
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width:100px;
+            right: 200px;
+            top: 78px;
+        }
+
+        .go-button:hover {
+            background-color: #0df919; /* Change button color on hover */
+            cursor: pointer;
+          }
+
+        .logout-button {
+            position: absolute;
+            top: 25px;
+            right: 50px;
+            text-decoration: none;
+            color: #090808;
+            padding: 15px;
+            background-color: #bfed38;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        h2{
+          /* for setting the  */
+          font-size: 7px; 
+        font-weight: bold;
+        font-style: italic;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color:antiquewhite;
+        visibility: hidden;
+        }
+
+        .buttons-container {
+        display: flex;
+        flex-direction: column;
+        left: 15px;
+        bottom:390px;
+        position: absolute;
+        margin-bottom: 15px;
+        border-width: 5px;
+        border-color: #060606;
+      }
+
+      .button-item {
+        left: 15px;
+        text-decoration: none;
+        text-shadow: #1bc95b;
+        color: #060606; 
+        padding: 10px; 
+        background-color: #fcfcfc; /* background color of button */
+        border-radius: 5px; /* for smooth corners */
+        text-align: center;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: bold;
+        bottom:390px;
+        margin-bottom: 15px;
+      }
+
+      .button-item:hover{
+        background-color: #356ad4; /* Change button color on hover */
+        cursor: pointer;
+      }
+
+      .image-container {
+            text-align: center; 
+            margin-top: 20px; /* top margin for better spacing */
+            position: absolute;
+            top: 10px;
+            left:30px;
+        }
+
+        /*setting the size of the image */
+        .welcome-image {
+            width: 180px; /* Adjust width as needed */
+            height: 120px; /* Adjust height as needed */
+        }
+
+    </style>
+  </head>
+  <body>
+    
+    <h1>_______</h1>
+    
+    <form method="POST" action="/stock_analysis">
+
+      <label for="stock">Stock:</label>
+      <select id="stock" name="stock">
+        {% for stock in stocks %}
+        <option value="{{ stock }}">{{ stock }}</option>
+        {% endfor %}
+      </select>
+      <!-- <br /> -->
+
+      <label for="analysis_type">Criteria: </label>
+      <select id="analysis_type" name="analysis_type">
+        {% for analysis_type in analysis_types %}
+        <option value="{{ analysis_type }}">{{ analysis_type }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="time">Time Scale:</label>
+      <select id="time" name="time">
+        {% for time_scale in time_scale %}
+        <option value="{{ time_scale }}">{{ time_scale }}</option>
+        {% endfor %}
+      </select>
+
+      <button class="go-button" type="submit">Go</button>
+    
+      {% if plot_html_path %}
+      <h2>Performance Plot</h2>
+      <iframe
+        src="{{ url_for('static', filename = html_filename) }}" width="1100px"  height="600px" ></iframe>
+      {% endif %}
+    </form>
+    <div class="buttons-container">
+      <a class="button-item" href="/multiple_stocks">Multiple Stocks Stats</a>
+      <a class="button-item" href="/Filters">Filter and Choose</a>
+    </div>
+
+    <div class="image-container">
+      <img id="welcome-image" class="welcome-image" src="{{ url_for('static', filename='logo.png') }}" alt="Welcome Image">
+    </div>
+
+    <div calss="logout-button">
+      <a href="/logout" class="logout-button">Logout</a>
+    </div>
+  </body>
+</html>

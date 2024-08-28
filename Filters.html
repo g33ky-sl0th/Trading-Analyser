@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+
+    h1 {
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        color:blanchedalmond;
+    }
+
+    legend{
+        color: blanchedalmond;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    fieldset label {
+        color:cyan;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif 
+    }
+
+    body {
+    background-image: url('/static/pic5.jpg');
+    background-size:cover; 
+    }
+
+    th{
+        font-family:'Times New Roman', Times, serif;
+        color:chartreuse;
+        padding: 31px;
+        font-size: 20px;
+    }
+
+    td{
+        color:gold;
+        padding: 13px;
+    }
+
+    .logout-button {
+            position: absolute;
+            top: 25px;
+            right: 50px;
+            text-decoration: none;
+            color: #090808;
+            padding: 15px;
+            background-color: #bfed38;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .buttons-container {
+        display: flex;
+        flex-direction: column;
+        right: 20px;
+        bottom:360px;
+        position: absolute;
+        margin-bottom: 8px;
+        border-width: 5px;
+        border-color: #060606;
+      }
+
+      .button-item {
+        right: 20px;
+        text-decoration: none;
+        text-shadow: #1bc95b;
+        color: #060606; 
+        padding: 10px;
+        background-color: #fcfcfc; /* background color*/
+        border-radius: 5px; /* for rounded corners */
+        text-align: center;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: bold;
+        bottom:360px;
+        margin-bottom: 8px;
+      }
+
+      /* Change button color on hover */
+      .button-item:hover{
+        background-color: #356ad4; 
+        cursor: pointer;
+      }
+
+      .image-container {
+            text-align: center; 
+            margin-top: 20px; /* top margin for better spacing */
+            position: absolute;
+            top: -15px;
+            left:650px;
+        }
+
+        /*setting the size of the image */
+        .welcome-image {
+            width: 140px; /* Adjust width as needed */
+            height: 80px; /* Adjust height as needed */
+        }
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filters Page</title>
+    <script>
+        function updateInputBoxes() {
+            var checkedFilters = document.querySelectorAll('input[name="filter"]:checked');
+            var inputContainer = document.getElementById('inputContainer');
+            inputContainer.innerHTML = ''; 
+
+            for (var i = 0; i < checkedFilters.length; i++) {
+                var input = document.createElement('input');
+                input.type = 'number';
+                input.name = 'dynamicInput';
+                input.placeholder = 'Enter value for ' + checkedFilters[i].value;
+                inputContainer.appendChild(input);
+            }
+        }
+
+        function toggleSelectAll(checkbox) {
+            var stocksCheckboxes = document.querySelectorAll('input[name="stock"]');
+            stocksCheckboxes.forEach(function (stockCheckbox) {
+                stockCheckbox.checked = checkbox.checked;
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Select Filters</h1>
+
+    <!-- family 1 -->
+    <form id="filterForm" method="post" action="{{ url_for('Filters') }}">
+        <fieldset>
+            <legend>Filters:</legend>
+            <label><input type="checkbox" name="filter" value="Trailing_P/E" onchange="updateInputBoxes()">Trailing P/E</label>
+            <label><input type="checkbox" name="filter" value="Forward_P/E" onchange="updateInputBoxes()">Forward P/E</label>
+            <label><input type="checkbox" name="filter" value="Forward_EPs" onchange="updateInputBoxes()">Forward EPs</label>
+            <label><input type="checkbox" name="filter" value="Backward_EPs" onchange="updateInputBoxes()">Backward EPs</label>
+
+        </fieldset>
+
+        <div id="inputContainer"></div>
+
+        <br>
+
+        <h1>Select Stocks</h1>
+
+        <!-- family 2 -->
+        <fieldset>
+            <legend>Stocks:</legend>
+            <label><input type="checkbox" id="selectAllStocks" onchange="toggleSelectAll(this)"> Select All</label>
+            <label><input type="checkbox" name="stock" value="BRITANNIA">BRITANNIA</label>
+            <label><input type="checkbox" name="stock" value="TITAN">TITAN</label>
+            <label><input type="checkbox" name="stock" value="LT">LT</label>
+            <label><input type="checkbox" name="stock" value="ONGC">ONGC</label>
+            <label><input type="checkbox" name="stock" value="HEROMOTOCO">HEROMOTOCO</label>
+            <label><input type="checkbox" name="stock" value="ULTRACEMCO">ULTRACEMCO</label>
+            <label><input type="checkbox" name="stock" value="ADANIENT">ADANIENT</label>
+            <label><input type="checkbox" name="stock" value="HINDALCO">HINDALCO</label>
+            <label><input type="checkbox" name="stock" value="BAJFINANCE">BAJFINANCE</label>
+            <label><input type="checkbox" name="stock" value="HDFCLIFE">HDFCLIFE</label>
+            <label><input type="checkbox" name="stock" value="APOLLOHOSP">APOLLOHOSP</label>
+            <label><input type="checkbox" name="stock" value="COALINDIA">COALINDIA</label>
+            <label><input type="checkbox" name="stock" value="INDUSINDBK">INDUSINDBK</label>
+            <label><input type="checkbox" name="stock" value="TATASTEEL">TATASTEEL</label>
+            <label><input type="checkbox" name="stock" value="TCS">TCS</label>
+            <label><input type="checkbox" name="stock" value="TATACONSUM">TATACONSUM</label>
+            <label><input type="checkbox" name="stock" value="NESTLEIND">NESTLEIND</label>
+            <label><input type="checkbox" name="stock" value="LTIM">LTIMindtree</label>
+            <label><input type="checkbox" name="stock" value="MARUTI">MARUTI</label>
+            <label><input type="checkbox" name="stock" value="KOTAKBANK">KOTAKBANK</label>
+            <label><input type="checkbox" name="stock" value="ITC">ITC</label>
+            <label><input type="checkbox" name="stock" value="NTPC">NTPC</label>
+            <label><input type="checkbox" name="stock" value="WIPRO">WIPRO</label>
+            <label><input type="checkbox" name="stock" value="TECHM">TECH MAHINDRA</label>
+            <label><input type="checkbox" name="stock" value="KOTAKBANK">KOTAKBANK</label>
+        </fieldset>
+
+        
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="buttons-container">
+        <a class="button-item" href="/stock_analysis">Stock Performance</a>
+        <a class="button-item" href="/multiple_stocks">Multiple Stocks Stats</a>
+      </div>
+
+    <div>
+        {%if filtered_stocks%}
+            <h1>Filtered Stocks:</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Filter Type and Value</th>
+                        <!-- <th>Value</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <table>
+                        {% for stock in filtered_stocks %}
+                            <tr>
+                                <td>{{ stock['symbol'] }}</td>
+                                {% if stock['values'] %}
+
+                                    {% for item in stock['values'] %}
+
+                                    <td>{{ item['filter_type'] }}</td>
+                                    <td>{{ item['value'] }}</td>
+
+                                    {% endfor %}
+
+                                    <!-- {% set first_item = stock['values'][0] %}
+                                    <td>{{ first_item['filter_type'] }}</td>
+                                    <td>{{ first_item['value'] }}</td> -->
+                                {% else %}
+                                    <td colspan="2">No values available</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    
+                </tbody>
+            </table>
+        {%endif%}
+    </div>
+
+    <div class="image-container">
+        <img id="welcome-image" class="welcome-image" src="{{ url_for('static', filename='logo.png') }}" alt="Welcome Image">
+      </div>
+
+    <div calss="logout-button">
+        <a href="/logout" class="logout-button">Logout</a>
+      </div>
+
+</body>
+</html>

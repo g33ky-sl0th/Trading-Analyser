@@ -1,0 +1,257 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Stocks Comparison</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <style>
+    h1 {
+      font-size: 40px;
+      font-weight: bold;
+      font-style: italic;
+      font-family: 'Times New Roman', Times, serif;
+      text-align: left;
+      position: absolute;
+      left: 240px;
+      top: 5px;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      position: relative;
+      background-image: url("/static/welcome.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: left;
+      color: rgb(252, 250, 250);
+      flex-direction: column; /* Set flex-direction to column */
+    }
+
+    form {
+      margin-top: 20px; /* Add margin below the h1 */
+      display:flex; /* Display form elements horizontally */
+      flex-wrap: wrap; /*Allow wrapping of elements to the next line*/
+      flex-direction: column;
+      top: 68px;
+      left: 18px;
+      position: relative;
+      font-family:'Courier New', Courier, monospace;
+      font-size: 21px;
+    }
+
+    .dropdown-container {
+            border: 3px solid #080808;
+            padding: 17px;
+            position: absolute;
+            top: 9px; 
+            left: 330px; 
+            transition: ease-in;
+        }
+
+        select {
+            border-radius: 8px;
+            width: 150px;
+            padding: 7px;
+            font-size: 17px;
+            margin-bottom: 8px; 
+            background-color: rgb(247, 246, 245);
+            font-family: 'Courier New', Courier, monospace;
+            cursor:pointer;
+            position: absolute;
+            top: 9px; 
+            left: 330px; 
+        }
+
+    .stock-checkbox {
+      top: 21px;
+      left: 10px; 
+      position: relative;
+      background-color: rgb(7, 7, 7);
+      width: 180px;
+      size: 20px;
+      margin-top: 2px;
+    }
+
+    .stock-checkbox:hover{
+      background-color: rgb(9, 166, 166);
+    }
+
+    .stock-checkbox label {
+       cursor: pointer; 
+    }
+
+    #plot-container {
+      position: absolute; 
+      top: 145px; 
+      left: 247px;
+    }
+
+    #stock{
+      position: absolute;
+      top: 20px;
+      left: 30px;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        right: 15px;
+        bottom:390px;
+        position: absolute;
+        margin-bottom: 8px;
+        border-width: 5px;
+        border-color: #060606;
+      }
+
+      .button-item {
+        right: 15px;
+        text-decoration: none;
+        text-shadow: #1bc95b;
+        color: #060606; 
+        padding: 10px;
+        background-color: #fcfcfc; /* background color*/
+        border-radius: 5px; /* for rounded corners */
+        text-align: center;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: bold;
+        bottom:390px;
+        margin-bottom: 8px;
+      }
+
+      /* Change button color on hover */
+      .button-item:hover{
+        background-color: #356ad4; 
+        cursor: pointer;
+      }
+
+
+    .logout-button {
+        position: absolute;
+        top: 20px; 
+        right: 40px; 
+        text-decoration: none;
+        color: #090808; 
+        padding: 15px;
+        background-color: #bfed38; 
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+      input[type="submit"]{
+        background-color: #090909;
+        color: white; 
+        padding: 8px; 
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        font-size: 20px; 
+        position: absolute;
+        top: 9px;
+        left:520px;
+        width: 50px;
+      }
+
+      /* Change button color on hover */
+      input[type="submit"]:hover {
+        background-color: #0df919; 
+      }
+
+      .Criteria{
+        margin-top: 10px;
+        margin-bottom: 7px;
+        background-color: rgb(233, 208, 176);
+        font-weight: bold;
+        color:#060606;
+        font-size: 22px;
+        font-family:'Times New Roman', Times, serif;
+        width: fit-content;
+        position: absolute;
+        top :7px;
+        left: 240px;
+      }
+
+      .image-container {
+            text-align: center; 
+            margin-top: 20px; 
+            position: absolute;
+            top: 1px;
+            left:30px;
+        }
+
+        /* define size of the image */
+        .welcome-image {
+            width: 160px; 
+            height: 100px; 
+        }
+
+  </style>
+</head>
+<body>
+  <h1>Multiple Stocks Comparison</h1>
+
+  <form method="POST" action="/multiple_stocks">
+    <label for="stocks"></label>
+    {% for stock in stocks %}
+  <div class="stock-checkbox">
+    <input type="checkbox" id="{{ stock }}" name="stocks" value="{{ stock }}">
+    <label for="{{ stock }}">{{ stock }}</label>
+  </div>
+{% endfor %}
+
+    <br />
+    <div class="Criteria">
+    <label for="analysis_type">Criteria: </label>
+    </div>
+    <select id="analysis_type" name="analysis_type">
+      {% for analysis_type in analysis_types %}
+        <option value="{{ analysis_type }}">{{ analysis_type }}</option>
+      {% endfor %}
+    </select>
+    <br />
+
+    <input type="submit" value="Go">
+  </form>
+
+  <div id="plot-container">
+    {% if plot_html_path %}
+    <h2></h2>
+    <iframe
+      src="{{ url_for('static', filename = html_filename) }}" width="1000px"  height="600px" ></iframe>
+    {% endif %}
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("form").submit(function() {
+        if ($("input[name='stocks']:checked").length === 0) {
+          alert("Please select at least one stock.");
+          return false;
+        }
+      });
+    });
+  </script>
+
+
+  <div class="buttons-container">
+    <a class="button-item" href="/stock_analysis">Stock Performance</a>
+    <a class="button-item" href="/Filters">Filter and Choose</a>
+  </div>
+
+  <div class="image-container">
+    <img id="welcome-image" class="welcome-image" src="{{ url_for('static', filename='logo.png') }}" alt="Welcome Image">
+  </div>
+
+  <div calss="logout-button">
+    <a href="/logout" class="logout-button">Logout</a>
+  </div>
+</body>
+</html>

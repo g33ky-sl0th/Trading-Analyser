@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <style>
+      body {
+          margin: 0;
+          padding: 20px; /* Add padding to create space around the dropdown */
+          position: relative; /* Set the body position to relative for absolute positioning of elements */
+          background-image: url('/static/wel.jpg');
+          background-size: cover;
+          background-position: center;
+          height: 100vh;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgb(252, 250, 250);
+      }
+
+      .dropdown-container {
+            border: 0px solid #080808; /* Add a border to the container */
+            border-radius: 8px; /* Add border-radius for rounded corners */
+            padding: 20px; /* Add padding inside the container */
+            position: absolute;
+            top: 120px; /* Adjust top position to move the container below the text */
+            left: 100px; /* Adjust left position to move the container to the left */
+            display: none; /* Hide the dropdown initially */
+            transition: ease-in;
+        }
+
+        .hover-text {
+            position: absolute;
+            top: 45px; /* Adjust top position to move the text above the container */
+            left: 60px; /* Adjust left position to align with the container */
+            cursor: pointer;
+            text-decoration-style: wavy;
+            color: #faf8f8; /* Set the text color for contrast */
+            font-size: 35px; /* Increase font size */
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .hover-text::after {
+        content: '\25BC'; /* Unicode character for an upside-down triangle */
+        margin-left: 5px; /* Add some spacing between the triangle and text */
+        font-size: 16px; /* Adjust the size of the triangle */
+    }
+
+        .hover-text:hover + .dropdown-container,
+        .dropdown-container:hover {
+            display: block; /* Show the dropdown when Options is hovered */
+        }
+
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            margin-left: -15px;
+        }
+
+        .button-item {
+            margin-bottom: 10px;
+            text-decoration: none;
+            text-shadow: #1bc95b;
+            color: #ffffff; /* Set text color for contrast */
+            padding: 10px; /* Add padding for better visibility and clickability */
+            background-color: #000000; /* Add a background color for the button */
+            border: none;
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            text-align: center;
+            display: block;
+            font-size: 27px;
+        }
+
+      .button-item:hover{
+        background-color: #1bc95b;
+        cursor: pointer;
+      }
+
+      .logout-button {
+          position: absolute;
+          top: 25px; /* Adjust top position to move the button to the top */
+          right: 50px; /* Adjust right position to move the button to the right */
+          text-decoration: none;
+          color: #090808; /* Set text color for contrast */
+          padding: 15px; /* Add padding for better visibility and clickability */
+          background-color: #bfed38; /* Add a background color for the button */
+          border: none;
+          border-radius: 5px; /* Add border-radius for rounded corners */
+          font-weight: bold;
+      }
+
+      .welcome-message {
+            position: absolute;
+            top: 10px; /* Adjust top position to move the message to the top */
+            margin-left: 0px; /* Adjust left position to move the message to the left */
+            font-size: 36px; /* Adjust font size */
+            color: #ffffff; /* Set text color for contrast */
+            font-weight: bold;
+            font-family:'Courier New', Courier, monospace;
+            /* background-color: darkgreen; */
+            text-decoration:wavy;
+        }
+      
+        .wel{
+          position: absolute;
+            top: 70px; /* Adjust top position to move the message to the top */
+            left: 630px; /* Adjust left position to move the message to the left */
+            font-size: 36px; /* Adjust font size */
+            color: #ffffff; /* Set text color for contrast */
+            font-weight: bold;
+            font-family:'Courier New', Courier, monospace;
+            /* background-color: darkgreen; */
+            /* text-decoration: underline; */
+        }
+
+        .image-container {
+            text-align: center; /* Center-align content */
+            margin-top: 20px; /* Adjust top margin for spacing */
+            position: absolute;
+            top: 170px;
+            left:490px;
+        }
+
+        /* Add style for the image */
+        .welcome-image {
+            width: 500px; /* Adjust width as needed */
+            height: 400px; /* Adjust height as needed */
+            /* transition: cubic-bezier(0.075, 0.82, 0.165, 1); */
+            opacity: 0;             /* transition: none; */
+            transition:1s ease-in-out; /*Add transition effect*/
+
+          }
+
+  </style>
+  </head>
+  <body>
+    <p class="welcome-message">Hey {{ username }} !!</p>
+    <p class="wel">Welcome to </p>
+
+    <!-- <h1 class="centered-title">StockDekho.com</h1> -->
+
+    <p class="hover-text">What we offer</p>
+
+    <div class="dropdown-container">
+        <div class="buttons-container">
+            <a class="button-item" href="/stock_analysis">Stock Performance</a>
+            <a class="button-item" href="/multiple_stocks">Multiple Stocks Stats</a>
+            <a class="button-item" href="/Filters">Filters</a>
+        </div>
+    </div>
+
+    <div class="image-container" onmouseover="setPermanentOpacity()">
+        <!-- Replace 'your_image.jpg' with the actual path to your image file -->
+        <img id="welcome-image" class="welcome-image" src="{{ url_for('static', filename='logo.png') }}" alt="Welcome Image">
+    </div>
+
+    <a href="/logout" class="logout-button">Logout</a>
+
+    <script>
+      // JavaScript function to set permanent opacity
+      function setPermanentOpacity() {
+          var image = document.getElementById("welcome-image");
+          image.style.opacity = 1;
+          image.style.transition = "none";
+      }
+  </script>
+    
+  </body>
+</html>
